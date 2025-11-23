@@ -2,7 +2,7 @@
   <main>
     <HeroSection section-id="home" />
     <CulturalMeaning section-id="culture" />
-    <FeaturedProducts section-id="types" />
+    <FeaturedProducts section-id="types" :max-count="6" />
   </main>
 </template>
 

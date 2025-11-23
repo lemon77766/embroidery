@@ -2,47 +2,55 @@
   <header class="header" :class="{ 'header--elevated': isElevated }">
     <nav class="navbar">
       <div class="nav-container">
-        <div class="logo">
-          <router-link to="/" class="logo-link">
-            <span class="logo-text">绣见江山</span>
-          </router-link>
-        </div>
-        <ul class="nav-menu">
-          <li v-for="item in navItems" :key="item.target">
-            <router-link
-              v-if="item.isRoute"
-              :to="item.target"
-              class="nav-link"
-              :class="{ active: isActiveRoute(item.target) }"
-            >
-              {{ item.label }}
-            </router-link>
-            <button
-              v-else
-              class="nav-link"
-              :class="{ active: item.target === activeSection }"
-              type="button"
-              @click="handleNavClick(item.target)"
-            >
-              {{ item.label }}
-            </button>
-          </li>
-        </ul>
-        <div class="search-box">
-          <input
-            v-model="searchTerm"
-            type="text"
-            class="search-input"
-            placeholder="请输入要搜索的内容"
-            @keyup.enter="handleSearch"
-          />
-          <button class="search-btn" type="button" @click="handleSearch" aria-label="搜索">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.35-4.35" />
-            </svg>
+        <div v-if="isProductsPage" class="products-page-header">
+          <button class="products-back-btn" type="button" @click="goHome" aria-label="返回主页">
+            <span class="products-back-icon">←</span>
           </button>
+          <div class="products-page-title logo-text">绣见江山-绣品展示</div>
         </div>
+        <template v-else>
+          <div class="logo">
+            <router-link to="/" class="logo-link">
+              <span class="logo-text">绣见江山</span>
+            </router-link>
+          </div>
+          <ul class="nav-menu">
+            <li v-for="item in navItems" :key="item.target">
+              <router-link
+                v-if="item.isRoute"
+                :to="item.target"
+                class="nav-link"
+                :class="{ active: isActiveRoute(item.target) }"
+              >
+                {{ item.label }}
+              </router-link>
+              <button
+                v-else
+                class="nav-link"
+                :class="{ active: item.target === activeSection }"
+                type="button"
+                @click="handleNavClick(item.target)"
+              >
+                {{ item.label }}
+              </button>
+            </li>
+          </ul>
+          <div class="search-box">
+            <input
+              v-model="searchTerm"
+              type="text"
+              class="search-input"
+              placeholder="请输入绣品名，例如星河锦绣"
+              @keyup.enter="handleSearch"
+            />
+            <button class="search-btn" type="button" @click="handleSearch" aria-label="搜索">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+              </svg>
+            </button>
+          </div>
+        </template>
       </div>
     </nav>
   </header>
@@ -50,8 +58,8 @@
 
 <script setup lang="ts">
 import { ElMessage } from 'element-plus'
-import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 import { useCatalogStore } from '@/stores/catalog'
 
@@ -69,6 +77,8 @@ const navItems: NavItem[] = [
 ]
 
 const route = useRoute()
+const router = useRouter()
+const isProductsPage = computed(() => route.name === 'products')
 const catalogStore = useCatalogStore()
 const searchTerm = ref(catalogStore.searchQuery)
 const isElevated = ref(false)
@@ -78,14 +88,19 @@ const isActiveRoute = (path: string) => {
   return route.path === path
 }
 
+const goHome = () => {
+  router.push('/')
+}
+
 const handleSearch = () => {
   const query = searchTerm.value.trim()
   if (!query) {
-    ElMessage.warning('请输入要搜索的内容')
+    ElMessage.warning('请输入绣品名，例如星河锦绣')
     return
   }
 
   catalogStore.setSearchQuery(query)
+  router.push({ name: 'products' })
   ElMessage.success(`正在搜索：${query}`)
 }
 

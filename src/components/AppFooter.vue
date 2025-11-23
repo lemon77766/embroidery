@@ -8,13 +8,6 @@
           <div class="newsletter">
             <h4>订阅通讯</h4>
             <div class="newsletter-form">
-              <input
-                v-model="email"
-                type="email"
-                placeholder="请输入您的邮箱"
-                class="newsletter-input"
-                @keyup.enter="handleSubscribe"
-              />
               <el-button
                 class="btn btn-primary btn-pill"
                 type="primary"
@@ -22,7 +15,7 @@
                 :loading="isSubmitting"
                 @click="handleSubscribe"
               >
-                订阅
+                一键订阅
               </el-button>
             </div>
             <p class="newsletter-tip">订阅后可第一时间获取非遗活动与新品资讯。</p>
@@ -52,27 +45,29 @@ import { ElMessage } from 'element-plus'
 import { ref } from 'vue'
 
 import { submitNewsletter } from '@/services/newsletter'
+import { getCurrentUser } from '@/services/auth'
 
-const email = ref('')
 const isSubmitting = ref(false)
 
 const handleSubscribe = async () => {
-  const value = email.value.trim()
-  if (!value) {
-    ElMessage.warning('请输入您的邮箱地址')
-    return
-  }
-
-  if (!validateEmail(value)) {
-    ElMessage.error('请输入有效的邮箱地址')
-    return
-  }
-
   try {
     isSubmitting.value = true
+
+    const user = await getCurrentUser()
+    const value = user?.email?.trim()
+
+    if (!value) {
+      ElMessage.warning('请先登录后再订阅')
+      return
+    }
+
+    if (!validateEmail(value)) {
+      ElMessage.error('当前账号邮箱无效，请检查后再试')
+      return
+    }
+
     await submitNewsletter({ email: value })
     ElMessage.success('订阅成功！我们将定期发送最新资讯。')
-    email.value = ''
   } catch (error) {
     ElMessage.error('订阅失败，请稍后再试')
     console.error(error)

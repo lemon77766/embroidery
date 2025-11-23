@@ -1,7 +1,7 @@
 <template>
   <main>
     <EmbroideryTypes />
-    <FeaturedProducts section-id="products" />
+    <FeaturedProducts section-id="products" :max-count="6" />
   </main>
 </template>
 

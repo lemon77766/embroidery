@@ -21,7 +21,7 @@
           </div>
           <div class="type-content">
             <p class="type-description">{{ type.description }}</p>
-            <button class="type-link">
+            <button class="type-link" type="button" @click="goToProducts(type.category)">
               了解更多 →
             </button>
           </div>
@@ -32,11 +32,24 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
+import { useCatalogStore } from '@/stores/catalog'
+import type { CategoryId } from '@/stores/catalog'
+
 interface EmbroideryType {
   id: number
   name: string
   description: string
   image: string
+  category: CategoryId
+}
+
+const router = useRouter()
+const catalogStore = useCatalogStore()
+
+const goToProducts = (category: CategoryId) => {
+  catalogStore.setCategory(category)
+  router.push({ name: 'products' })
 }
 
 const embroideryTypes: EmbroideryType[] = [
@@ -44,32 +57,36 @@ const embroideryTypes: EmbroideryType[] = [
     id: 1,
     name: '苏绣',
     description: '以精细、雅洁著称，针法丰富、色彩鲜艳，擅长以针代笔，"巧夺天工"之美誉，是中国刺绣艺术的杰出代表。',
-    image: '/images/zhonglei/1.jpg'
+    image: '/images/zhonglei/1.jpg',
+    category: 'su'
   },
   {
     id: 2,
     name: '湘绣',
     description: '以狮、虎等主题闻名，形态生动细腻、色彩鲜明，有"绣花能生香，绣鸟能闻声，绣虎能奔跑"的美誉。',
-    image: '/images/zhonglei/2.jpg'
-  },
-  {
-    id: 3,
-    name: '粤绣',
-    description: '以构图饱满、繁而不乱著称，色彩鲜艳明亮、富丽堂皇，常用金银线刺绣花鸟，显得金碧辉煌，具有浓郁的岭南特色。',
-    image: '/images/zhonglei/3.jpg'
+    image: '/images/zhonglei/2.jpg',
+    category: 'xiang'
   },
   {
     id: 4,
     name: '蜀绣',
     description: '以软缎和彩丝为主要原料，针法严谨、片线光亮，色彩鲜明和谐，擅长于花鸟、走兽、山水等题材，具有浓郁的蜀地风情。',
-    image: '/images/zhonglei/4.jpg'
+    image: '/images/zhonglei/4.jpg',
+    category: 'shu'
+  },
+  {
+    id: 3,
+    name: '粤绣',
+    description: '以构图饱满、繁而不乱著称，色彩鲜艳明亮、富丽堂皇，常用金银线刺绣花鸟，显得金碧辉煌，具有浓郁的岭南特色。',
+    image: '/images/zhonglei/3.jpg',
+    category: 'modern'
   }
 ]
 </script>
 
 <style scoped lang="scss">
 .embroidery-types {
-  padding: 100px 0 60px;
+  padding: 60px 0 60px;
   background: linear-gradient(to bottom, #fffef9, #fef9f0);
 }
 

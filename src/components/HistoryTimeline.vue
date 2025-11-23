@@ -90,7 +90,7 @@ const timelineItems: TimelineItem[] = [
 
 <style scoped lang="scss">
 .history-timeline {
-  padding: 100px 0;
+  padding: 60px 0;
   background: linear-gradient(to bottom, #fef9f0, #fffef9);
   position: relative;
   overflow: hidden;

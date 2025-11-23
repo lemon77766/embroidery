@@ -425,6 +425,43 @@ body::before {
     color: var(--primary-color);
 }
 
+.products-page-header {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.products-back-btn {
+    position: absolute;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--border-radius-full);
+    border: 1px solid rgba(212, 165, 116, 0.5);
+    background: rgba(255, 254, 249, 0.9);
+    color: var(--primary-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition-base);
+}
+
+.products-back-btn:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(212, 165, 116, 0.35);
+}
+
+.products-page-title {
+}
+
+.products-back-icon {
+    font-size: 18px;
+}
+
 /* Hero区域 - 黄色国风优化 */
 .hero {
     position: relative;
@@ -758,6 +795,10 @@ body::before {
     transition: var(--transition-slow);
 }
 
+.product-card:hover .favorite-btn {
+    opacity: 1;
+}
+
 .product-badge {
     position: absolute;
     top: 15px;
@@ -786,6 +827,65 @@ body::before {
     color: var(--white);
     box-shadow: 0 2px 8px rgba(155, 89, 182, 0.3);
 }
+
+.favorite-btn {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    background: rgba(255, 254, 249, 0.96);
+    border: 1.5px solid rgba(212, 165, 116, 0.85);
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.25s ease;
+    box-shadow: 0 3px 10px rgba(212, 165, 116, 0.28);
+    backdrop-filter: blur(6px);
+}
+
+.favorite-btn::before {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border-radius: 999px;
+    border: 1px solid rgba(212, 165, 116, 0.4);
+}
+
+.favorite-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgba(212, 165, 116, 0.4);
+}
+
+.favorite-btn.favorited {
+    opacity: 1;
+    background: linear-gradient(135deg, #f5deb3, #d4a574);
+    border-color: #8b6914;
+    box-shadow: 0 5px 16px rgba(139, 105, 20, 0.45);
+}
+
+.favorite-btn.favorited::before {
+    border-color: rgba(255, 255, 255, 0.8);
+}
+
+.favorite-btn .favorite-icon {
+    position: relative;
+    z-index: 1;
+    font-family: var(--font-family-serif);
+    font-size: 18px;
+    letter-spacing: 0.2em;
+    padding-left: 0.2em;
+    color: var(--primary-color);
+}
+
+.favorite-btn.favorited .favorite-icon {
+    color: #3d3020;
+}
+
 
 .product-image {
     width: 100%;
@@ -843,6 +943,18 @@ body::before {
 .view-more .btn {
     padding: var(--spacing-4) var(--spacing-10);
     font-size: var(--font-size-base);
+}
+
+/* 更多绣品页面 - 黄色国风 */
+.products-page-hero {
+    padding: 80px 0 40px;
+    background: linear-gradient(to bottom, var(--bg-surface), var(--bg-muted));
+    border-bottom: 1px solid var(--border-light);
+}
+
+.products-page-actions {
+    margin-top: 16px;
+    text-align: center;
 }
 
 /* 刺绣文化意义 - 黄色国风 */

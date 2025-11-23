@@ -423,7 +423,7 @@ const registerData = reactive<VerifyCodeRegisterFormData>({
 const isSendingCode = ref(false)
 const countdown = ref(0)
 const codeMessage = ref('')
-let countdownTimer: NodeJS.Timeout | null = null
+let countdownTimer: ReturnType<typeof setInterval> | null = null
 
 // 处理登录
 async function handleLogin() {

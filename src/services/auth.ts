@@ -439,7 +439,7 @@ export async function changePassword(oldPassword: string, newPassword: string): 
  * 监听认证状态变化
  */
 export function onAuthStateChange(callback: (user: any) => void) {
-  return supabase.auth.onAuthStateChanged((event, session) => {
+  return supabase.auth.onAuthStateChange((_event, session) => {
     callback(session?.user || null)
   })
 }
